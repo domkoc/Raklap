@@ -104,7 +104,7 @@ public class Raktar {
         for (int i = 0; i < hosszusag; i++) {
             for (int j = 0; j < szelesseg; j++) {
                 System.out.print(raktar[i][j]);
-                System.out.print("\t");
+                if (j < szelesseg - 1) System.out.print("\t");
             }
             System.out.print("\n");
         }
