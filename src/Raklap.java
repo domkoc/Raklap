@@ -3,17 +3,35 @@ public class Raklap implements Comparable<Raklap> {
     int szelesseg;
     int meret;
     int[][] raklap;
+    int y;
+    int x;
 
     public Raklap(int hosszusag, int szelesseg, int index) {
         this.hosszusag = hosszusag;
         this.szelesseg = szelesseg;
-        this.meret = szelesseg * hosszusag;
-        this.raklap = new int[hosszusag][szelesseg];
-        for (int i = 0; i < hosszusag; i++) {
-            for (int j = 0; j < szelesseg; j++) {
+        this.meret = this.szelesseg * this.hosszusag;
+        this.raklap = new int[this.hosszusag][this.szelesseg];
+        for (int i = 0; i < this.hosszusag; i++) {
+            for (int j = 0; j < this.szelesseg; j++) {
                 raklap[i][j] = index;
             }
         }
+        this.y = 0;
+        this.x = 0;
+    }
+
+    public Raklap(int y, int x, Raklap raklap) {
+        this.hosszusag = raklap.hosszusag;
+        this.szelesseg = raklap.szelesseg;
+        this.meret = this.szelesseg * this.hosszusag;
+        this.raklap = new int[this.hosszusag][this.szelesseg];
+        for (int i = 0; i < this.hosszusag; i++) {
+            for (int j = 0; j < this.szelesseg; j++) {
+                this.raklap[i][j] = raklap.raklap[0][0];
+            }
+        }
+        this.y = y;
+        this.x = x;
     }
 
     @Override

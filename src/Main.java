@@ -20,6 +20,7 @@ public class Main {
         String[] parts = new String[2];
         boolean input = true;
         int lineidx = 0;
+
         //bemenet:
         try {
             while (input) {
@@ -57,12 +58,36 @@ public class Main {
         Collections.sort(raklapok);
 
         //3. Betevés:
-        for (Raklap raklap: raklapok) {
-            raktar.addRaklap(raklap);
+        //változók:
+        boolean wasUndo = false;
+        int numUndo = 0;
+        int numRedo = 0;
+
+        //próbálkozás:
+        for (int i = 0; i < raklapok.size(); i++) {
+            boolean siker = raktar.addRaklap(raklapok.elementAt(i));
+            if (i == 0 && !siker) break;
+            if (!siker) {
+                int tempNumUndo = numUndo;
+                for (int j = 0; j < tempNumUndo; j++) {
+                    raktar.undo();
+                    Collections.swap(raklapok, i - 1, i);
+                    i--;
+                }
+                raktar.undo();
+                numUndo++;
+                numRedo = 0;
+                Collections.swap(raklapok, i - 1, i);
+                i -= 2;
+                if (i < -1) break;
+            } else if (numUndo < numRedo && numUndo > 0) {
+                numUndo = 0;
+            } else if (numUndo > numRedo && numUndo > 0) {
+                numRedo++;
+            }
         }
 
+        //4. Kiírás:
         raktar.print();
-
-
     }
 }

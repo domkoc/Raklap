@@ -5,6 +5,7 @@ public class Raktar {
     int szelesseg;
     int[][] raktar;
     Vector<Oszlop> oszlopok;
+    Vector<Raklap> raklapok;
 
     public Raktar(int hosszusag, int szelesseg) {
         this.hosszusag = hosszusag;
@@ -16,6 +17,7 @@ public class Raktar {
             }
         }
         oszlopok = new Vector<Oszlop>();
+        raklapok = new Vector<Raklap>();
     }
 
     public void addOszlop(int y, int x) {
@@ -27,6 +29,7 @@ public class Raktar {
             for (int x = 0; x < szelesseg; x++) {
                 if (raklapFits(y, x, raklap)) {
                     putRaklap(y, x, raklap);
+                    raklapok.add(new Raklap(y, x, raklap));
                     return true;
                 }
             }
@@ -82,7 +85,7 @@ public class Raktar {
     }
 
     private boolean isIntersected(int y, int x, int raklapHosszusag, int raklapSzelesseg) {
-        for (Oszlop oszop: oszlopok) {
+        for (Oszlop oszop : oszlopok) {
             if (oszop.y > y && oszop.y < y + raklapHosszusag) {
                 if (oszop.x > x && oszop.x < x + raklapSzelesseg) {
                     return true;
@@ -100,7 +103,7 @@ public class Raktar {
         return false;
     }
 
-    void print(){
+    void print() {
         for (int i = 0; i < hosszusag; i++) {
             for (int j = 0; j < szelesseg; j++) {
                 System.out.print(raktar[i][j]);
@@ -108,5 +111,14 @@ public class Raktar {
             }
             System.out.print("\n");
         }
+    }
+
+    public void undo() {
+        for (int i = raklapok.lastElement().y; i < raklapok.lastElement().y + raklapok.lastElement().hosszusag; i++) {
+            for (int j = raklapok.lastElement().x; j < raklapok.lastElement().x + raklapok.lastElement().szelesseg; j++) {
+                raktar[i][j] = 0;
+            }
+        }
+        raklapok.removeElementAt(raklapok.size() - 1);
     }
 }
